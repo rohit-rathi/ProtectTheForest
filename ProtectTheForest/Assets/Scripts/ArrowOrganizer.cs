@@ -5,6 +5,8 @@ using UnityEngine;
 public class ArrowOrganizer : MonoBehaviour {
 
     public SteamVR_TrackedObject trackedObj;
+    public SteamVR_TrackedObject otherController;
+
 
     public static ArrowOrganizer Instance; //singleton
 
@@ -13,6 +15,8 @@ public class ArrowOrganizer : MonoBehaviour {
     public GameObject stringOnBow;
     public GameObject arrowStartPoint;
     public GameObject stringStartPoint;
+    public GameObject stringMaxPull;
+    private float dist;
 
     private bool isArrowAttached = false;
 
@@ -41,9 +45,10 @@ public class ArrowOrganizer : MonoBehaviour {
     {
         if(currentArrow == null)
         {
-            currentArrow = Instantiate(arrowObject, trackedObj.transform.position, trackedObj.transform.rotation);
+            currentArrow = Instantiate(arrowObject);//, trackedObj.transform.position, trackedObj.transform.rotation);
             currentArrow.transform.parent = trackedObj.transform;
             currentArrow.transform.localPosition = new Vector3(0f, 0f, .342f);
+            currentArrow.transform.localRotation = Quaternion.identity;
         }
     }
 
@@ -59,17 +64,40 @@ public class ArrowOrganizer : MonoBehaviour {
     {
         if (isArrowAttached)
         {
-            float dist = (stringStartPoint.transform.position - trackedObj.transform.position).magnitude;
-            stringOnBow.transform.localPosition = stringStartPoint.transform.localPosition + new Vector3(10f * dist, 0f, 0f);
+            dist = (stringStartPoint.transform.position - trackedObj.transform.position).magnitude;
+            stringOnBow.transform.localPosition = stringStartPoint.transform.localPosition + new Vector3(3.5f * dist, 0f, 0f);
+
+            var device = SteamVR_Controller.Input((int)trackedObj.index);
+            var otherDevice = SteamVR_Controller.Input((int)otherController.index);
+            ushort amountOfVibration = (ushort)(500 * dist);
+            device.TriggerHapticPulse(amountOfVibration);
+            otherDevice.TriggerHapticPulse(amountOfVibration);
+            if (device.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger))
+            {
+                FireArrow();
+            }
         }
     }
 
     public void AttachBowToArrow()
     {
         currentArrow.transform.parent = stringOnBow.transform;
-        currentArrow.transform.localPosition = arrowStartPoint.transform.localPosition;
+        currentArrow.transform.position = arrowStartPoint.transform.position;
         currentArrow.transform.rotation = arrowStartPoint.transform.rotation;
 
         isArrowAttached = true;
+    }
+
+    private void FireArrow()
+    {
+        currentArrow.transform.parent = null;
+        currentArrow.GetComponent<Arrow>().arrowIsFired();
+        Rigidbody arrowRB = currentArrow.GetComponent<Rigidbody>();
+        arrowRB.velocity = currentArrow.transform.forward * 25f * dist;
+        arrowRB.useGravity = true;
+
+        stringOnBow.transform.position = stringStartPoint.transform.position; // reset the string so that the bow is ready to be used again
+        currentArrow = null;
+        isArrowAttached = false;
     }
 }

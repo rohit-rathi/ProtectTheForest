@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour {
 
+    bool isArrowAttached = false;
+    bool isFired = false;
+
     void OnTriggerStay()
     {
         AttachArrow();
@@ -13,12 +16,26 @@ public class Arrow : MonoBehaviour {
         AttachArrow();
     }
 
+    void Update()
+    {
+        if (isFired)
+        {
+            transform.LookAt(transform.position + transform.GetComponent<Rigidbody>().velocity);
+        }
+    }
+    
     private void AttachArrow()
     {
         var device = SteamVR_Controller.Input((int)ArrowOrganizer.Instance.trackedObj.index);
-        if(device.GetTouch(SteamVR_Controller.ButtonMask.Trigger))
+        if(!isArrowAttached && device.GetTouch(SteamVR_Controller.ButtonMask.Trigger))
         {
             ArrowOrganizer.Instance.AttachBowToArrow();
+            isArrowAttached = true;
         }
+    }
+
+    public void arrowIsFired()
+    {
+        isFired = true;
     }
 }
