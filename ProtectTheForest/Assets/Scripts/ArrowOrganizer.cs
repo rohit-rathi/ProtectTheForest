@@ -17,13 +17,8 @@ public class ArrowOrganizer : MonoBehaviour {
     public GameObject stringStartPoint;
     public GameObject stringMaxPull;
 
-    public AudioSource stringSoundSource;
-    public AudioClip[] soundFiles;
-
     private float dist;
     private float maxDist;
-
-    private bool intermittentVibration = true;
 
     private bool isArrowAttached = false;
 
@@ -81,62 +76,10 @@ public class ArrowOrganizer : MonoBehaviour {
             stringOnBow.transform.localPosition = stringStartPoint.transform.localPosition + new Vector3(7f * dist, 0f, 0f);
 
             // haptic feedback
-            if(dist >= maxDist)
-            {
-                if(intermittentVibration)
-                {
-                    Debug.Log("vibrate");
-                    device.TriggerHapticPulse(400);
-                    intermittentVibration = false;
-                }
-                else
-                {
-                    Debug.Log("No vibrate");
-                    for(int i = 0; i < 100; i++)
-                    {
-                        device.TriggerHapticPulse(0);
-                    }
-                    intermittentVibration = true;
-                }
-            }
-
-            Debug.Log("1");
-            //stringSoundSource.PlayOneShot(soundFiles[1]);
-            if(!stringSoundSource.isPlaying)
-            {
-                stringSoundSource.clip = soundFiles[1];
-                stringSoundSource.Play();
-            }
-            Debug.Log("2");
-
-            
-            //device.velocity.Normalize
-
-            /*
-            bool trigger = true;
-            if(trigger)
-            {
-                device.TriggerHapticPulse(400);
-                trigger = false;
-            }
-            else
-            {
-                for (int i = 0; i < 1000; i++)
-                {
-                    device.TriggerHapticPulse(0);
-                }
-                trigger = true;
-            }*/
-            
-
-            ushort amountOfVibration = (ushort)(dist * 550);
-
+            ushort amountOfVibration = (ushort)(dist * 400);
             device.TriggerHapticPulse(amountOfVibration);
             otherDevice.TriggerHapticPulse(amountOfVibration);
-            // play sound of the string based on the speed that the string is being pulled back - the quicker it is the louder the noise
 
-            // figure out how to do the vibrations for when the string is at the max distance! --> the way they do in the lab is with it vibrating intermitantly 
-                    
             if (device.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger))
             {
                 FireArrow();
