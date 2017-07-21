@@ -23,6 +23,8 @@ public class ArrowOrganizer : MonoBehaviour {
     private float dist;
     private float maxDist;
 
+    private bool intermittentVibration = true;
+
     private bool isArrowAttached = false;
 
     void Awake()
@@ -69,6 +71,8 @@ public class ArrowOrganizer : MonoBehaviour {
     {
         if (isArrowAttached)
         {
+            var device = SteamVR_Controller.Input((int)trackedObj.index);
+            var otherDevice = SteamVR_Controller.Input((int)otherController.index);
             dist = (stringStartPoint.transform.position - trackedObj.transform.position).magnitude;
             if(dist >= maxDist)
             {
@@ -76,14 +80,54 @@ public class ArrowOrganizer : MonoBehaviour {
             }
             stringOnBow.transform.localPosition = stringStartPoint.transform.localPosition + new Vector3(7f * dist, 0f, 0f);
 
+            // haptic feedback
+            if(dist >= maxDist)
+            {
+                if(intermittentVibration)
+                {
+                    Debug.Log("vibrate");
+                    device.TriggerHapticPulse(400);
+                    intermittentVibration = false;
+                }
+                else
+                {
+                    Debug.Log("No vibrate");
+                    for(int i = 0; i < 100; i++)
+                    {
+                        device.TriggerHapticPulse(0);
+                    }
+                    intermittentVibration = true;
+                }
+            }
+
             Debug.Log("1");
             //stringSoundSource.PlayOneShot(soundFiles[1]);
-            stringSoundSource.clip = soundFiles[1];
-            stringSoundSource.Play();
+            if(!stringSoundSource.isPlaying)
+            {
+                stringSoundSource.clip = soundFiles[1];
+                stringSoundSource.Play();
+            }
             Debug.Log("2");
 
-            var device = SteamVR_Controller.Input((int)trackedObj.index);
-            var otherDevice = SteamVR_Controller.Input((int)otherController.index);
+            
+            //device.velocity.Normalize
+
+            /*
+            bool trigger = true;
+            if(trigger)
+            {
+                device.TriggerHapticPulse(400);
+                trigger = false;
+            }
+            else
+            {
+                for (int i = 0; i < 1000; i++)
+                {
+                    device.TriggerHapticPulse(0);
+                }
+                trigger = true;
+            }*/
+            
 
             ushort amountOfVibration = (ushort)(dist * 550);
 
