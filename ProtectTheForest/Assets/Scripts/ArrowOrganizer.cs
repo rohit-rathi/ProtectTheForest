@@ -16,7 +16,9 @@ public class ArrowOrganizer : MonoBehaviour {
     public GameObject arrowStartPoint;
     public GameObject stringStartPoint;
     public GameObject stringMaxPull;
-    public GameObject quiver;
+
+    public AudioSource stringSoundSource;
+    public AudioClip[] soundFiles;
 
     private float dist;
     private float maxDist;
@@ -73,6 +75,12 @@ public class ArrowOrganizer : MonoBehaviour {
                 dist = maxDist;
             }
             stringOnBow.transform.localPosition = stringStartPoint.transform.localPosition + new Vector3(7f * dist, 0f, 0f);
+
+            Debug.Log("1");
+            //stringSoundSource.PlayOneShot(soundFiles[1]);
+            stringSoundSource.clip = soundFiles[1];
+            stringSoundSource.Play();
+            Debug.Log("2");
 
             var device = SteamVR_Controller.Input((int)trackedObj.index);
             var otherDevice = SteamVR_Controller.Input((int)otherController.index);
