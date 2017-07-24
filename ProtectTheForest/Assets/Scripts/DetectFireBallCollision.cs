@@ -32,12 +32,13 @@ public class DetectFireBallCollision : MonoBehaviour {
         {
             Debug.Log("Burnable");
             fs.StartFire(this.gameObject.transform.position);
-           // fs.destroyFireBall(this);
+            fs.destroyFireBall(this.gameObject);
         }
 
         else if (col.gameObject.CompareTag("NotBurnable"))
         {
             Debug.Log("Not Burnable");
+            fs.destroyFireBall(this.gameObject);
         }
     }
 }
