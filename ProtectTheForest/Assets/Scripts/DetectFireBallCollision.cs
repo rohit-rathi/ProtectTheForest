@@ -6,20 +6,17 @@ public class DetectFireBallCollision : MonoBehaviour {
 
     GameObject FireBallManager;
     FireSpawner fs;
-    
+
+    public GameObject WaterBucket;
+    WaterBucketOrganizer bucketOrganizer;
+
     // Use this for initialization
     void Start () {
         FireBallManager = GameObject.Find("FireBallManager");
         fs = FireBallManager.GetComponent<FireSpawner>();
-        if (fs == null)
-        {
-            Debug.Log("no object found");
-        }
-        else
-        {
-            Debug.Log("Object found");
-        }
-	}
+
+        bucketOrganizer = WaterBucket.GetComponent<WaterBucketOrganizer>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -33,6 +30,8 @@ public class DetectFireBallCollision : MonoBehaviour {
             Debug.Log("Burnable");
             fs.StartFire(this.gameObject.transform.position);
             fs.destroyFireBall(this.gameObject);
+            Debug.Log("Instantiating bucket");
+            bucketOrganizer.InstantiateWaterBucket(this.gameObject.transform.position);
         }
 
         else if (col.gameObject.CompareTag("NotBurnable"))
