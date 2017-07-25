@@ -12,8 +12,7 @@ public class FireSpawner : MonoBehaviour {
     public GameObject fireBall;
     public GameObject fireOnLand;
 
-   // ArrayList listOfAllFireBalls = new ArrayList();
-    ArrayList listOfAllFires = new ArrayList();
+    ArrayList listOfAllFires = new ArrayList(); // need this to see when counter is at 0 are there any fires still remaining to add more time
     
     // Use this for initialization
     void Start () {
@@ -27,7 +26,6 @@ public class FireSpawner : MonoBehaviour {
 
     public void InstantiateFireBalls()
     {
-        //listOfAllFireBalls.Add(Instantiate(fireBall, new Vector3(Random.Range(minCordinate, maxCordinate), heightOfSpawn, Random.Range(minCordinate, maxCordinate)), Quaternion.identity));
         Instantiate(fireBall, new Vector3(Random.Range(minCordinate, maxCordinate), heightOfSpawn, Random.Range(minCordinate, maxCordinate)), Quaternion.identity);
     }
 

@@ -101,7 +101,7 @@ public class ArrowOrganizer : MonoBehaviour {
         currentArrow.transform.parent = null;
         currentArrow.GetComponent<Arrow>().arrowIsFired();
         Rigidbody arrowRB = currentArrow.GetComponent<Rigidbody>();
-        arrowRB.velocity = currentArrow.transform.forward * 35f * dist;
+        arrowRB.velocity = currentArrow.transform.forward * 50f * dist;
         arrowRB.useGravity = true;
 
         stringOnBow.transform.position = stringStartPoint.transform.position; // reset the string so that the bow is ready to be used again

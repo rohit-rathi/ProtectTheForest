@@ -18,15 +18,24 @@ public class WaterBucketOrganizer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (this.gameObject.transform.position.y < MAX_BUCKET_HEIGHT)
+
+        if (balloonCount > 0)
         {
-            Debug.Log("Entered moving bucket up");
-            this.gameObject.transform.Translate(0, 2f * Time.deltaTime, 0, Space.World);
+            if (this.gameObject.transform.position.y < MAX_BUCKET_HEIGHT)
+            {
+                Debug.Log("Entered moving bucket up");
+                this.gameObject.transform.Translate(0, 2f * Time.deltaTime, 0, Space.World);
+            }
+            else
+            {
+                DestroyEntireBucket(this.gameObject.transform.position);
+            }
         }
         else
         {
-            DestroyEntireBucket(this.gameObject.transform.position);
+            DropWaterBucket();
         }
+        
     }
 
     void DestroyEntireBucket(Vector3 poofLocation)
@@ -44,11 +53,6 @@ public class WaterBucketOrganizer : MonoBehaviour {
     public void DecrementBalloonCount()
     {
         balloonCount--;
-        if(balloonCount == 0)
-        {
-            // call a method that will cause the bucket to fall and rotate as it falls so that the water
-            DropWaterBucket(); 
-        }
     }
 
     void DropWaterBucket()

@@ -19,18 +19,19 @@ public class Balloon : MonoBehaviour {
 		
 	}
 
-    public void OnCollisionEnter(Collision col)
+    void OnTriggerStay(Collider col)
     {
         if (col.gameObject.CompareTag("Arrow"))
         {
             Debug.Log("Arrow hit me");
-            DestroyBalloon(col.gameObject.transform.position);
+            DestroyBalloon(this.gameObject.transform.position);
         }
     }
-
     void DestroyBalloon(Vector3 hitPosition)
     {
         Destroy(this.gameObject);
+        Debug.Log("Destroying balloon");
         Instantiate(balloonPop, hitPosition, Quaternion.identity);
+        bucketOrganizer.DecrementBalloonCount();
     }
 }
