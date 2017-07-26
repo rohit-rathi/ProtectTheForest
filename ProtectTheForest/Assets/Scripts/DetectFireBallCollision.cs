@@ -27,16 +27,13 @@ public class DetectFireBallCollision : MonoBehaviour {
     {
         if (col.gameObject.CompareTag("Burnable"))
         {
-            Debug.Log("Burnable");
             fs.StartFire(this.gameObject.transform.position);
             fs.destroyFireBall(this.gameObject);
-            Debug.Log("Instantiating bucket");
             bucketOrganizer.InstantiateWaterBucket(this.gameObject.transform.position);
         }
 
         else if (col.gameObject.CompareTag("NotBurnable"))
         {
-            Debug.Log("Not Burnable");
             fs.destroyFireBall(this.gameObject);
         }
     }

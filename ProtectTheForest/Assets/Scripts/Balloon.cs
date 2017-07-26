@@ -11,7 +11,6 @@ public class Balloon : MonoBehaviour {
     // Use this for initialization
     void Start () {
         bucketOrganizer = WaterBucket.GetComponent<WaterBucketOrganizer>();
-
     }
 
     // Update is called once per frame
@@ -23,14 +22,12 @@ public class Balloon : MonoBehaviour {
     {
         if (col.gameObject.CompareTag("Arrow"))
         {
-            Debug.Log("Arrow hit me");
             DestroyBalloon(this.gameObject.transform.position);
         }
     }
     void DestroyBalloon(Vector3 hitPosition)
     {
         Destroy(this.gameObject);
-        Debug.Log("Destroying balloon");
         Instantiate(balloonPop, hitPosition, Quaternion.identity);
         bucketOrganizer.DecrementBalloonCount();
     }

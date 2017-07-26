@@ -7,13 +7,20 @@ public class WaterBucketOrganizer : MonoBehaviour {
     public GameObject waterBucket;
     public GameObject balloonPoof;
 
+    public GameObject[] waterParticles;
     int balloonCount = 2;
     int MAX_BUCKET_HEIGHT = 60;
 
+    bool hasBeenRotated = false;
+    float startTime = 0;
+
+    public Animator bucketRotationAnimation;
+    Animator anim;
+
     // Use this for initialization
     void Start () {
-        Debug.Log("imma here");
-		
+        anim = GetComponentInChildren<Animator>();
+        bucketRotationAnimation.StartPlayback();
 	}
 	
 	// Update is called once per frame
@@ -23,7 +30,6 @@ public class WaterBucketOrganizer : MonoBehaviour {
         {
             if (this.gameObject.transform.position.y < MAX_BUCKET_HEIGHT)
             {
-                Debug.Log("Entered moving bucket up");
                 this.gameObject.transform.Translate(0, 2f * Time.deltaTime, 0, Space.World);
             }
             else
@@ -33,9 +39,23 @@ public class WaterBucketOrganizer : MonoBehaviour {
         }
         else
         {
-            DropWaterBucket();
+            ActivateRotation();
+            if(hasBeenRotated)
+            {
+                Debug.Log("stop");
+                bucketRotationAnimation.StopPlayback();
+            }
+            //if (!hasBeenRotated)
+            //{
+            //    Debug.Log("all balloons shot");
+            //    //anim.Play("BucketRotation");
+            //    anim.enabled = true;
+            //    Debug.Log("played animation and now setting it bool to true");
+            //    hasBeenRotated = true;
+            //    anim.enabled = false;
+            //}
+            
         }
-        
     }
 
     void DestroyEntireBucket(Vector3 poofLocation)
@@ -44,9 +64,8 @@ public class WaterBucketOrganizer : MonoBehaviour {
         Instantiate(balloonPoof, poofLocation, Quaternion.identity);
     }
 
-    public void InstantiateWaterBucket(Vector3 location) // move this to DetectFireBallCollision
+    public void InstantiateWaterBucket(Vector3 location)
     {
-        Debug.Log("Entered instantiated water bucket method");
         Instantiate(waterBucket, location, Quaternion.identity);
     }
 
@@ -57,11 +76,23 @@ public class WaterBucketOrganizer : MonoBehaviour {
 
     void DropWaterBucket()
     {
-
+        //Debug.Log("Entering drop bucket mode");
+        ////need to call the animation
+        //Quaternion startRotation = Quaternion.Euler(0f, 0f, 0f);
+        //Quaternion endRotation = startRotation * Quaternion.Euler(0f, 0f, 180f);
+        //this.gameObject.transform.rotation = Quaternion.Slerp(startRotation, endRotation, startTime/2f);
+        //this.gameObject.transform.Translate(0f, Time.deltaTime * 2f, 0);
+        //startTime += Time.deltaTime;
+        //if(this.gameObject.transform.rotation.z == 180)
+        //{
+        //    hasBeenRotated = true;
+        //}
     }
 
-    public void DestroyBalloon(GameObject balloonToDestroy)
+    public void ActivateRotation()
     {
-
+        Debug.Log("Setting to true");
+        hasBeenRotated = true;
+        bucketRotationAnimation.SetBool("Rotate", true);
     }
 }
