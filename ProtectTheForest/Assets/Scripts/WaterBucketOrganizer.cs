@@ -71,7 +71,7 @@ public class WaterBucketOrganizer : MonoBehaviour
     {
         if (this.gameObject.transform.position.y > 0)
         {
-            this.gameObject.transform.Translate(0, -2f * Time.deltaTime, 0, Space.World);
+            this.gameObject.transform.Translate(0, -3.86f * Time.deltaTime, 0, Space.World);
         }
     }
 }
