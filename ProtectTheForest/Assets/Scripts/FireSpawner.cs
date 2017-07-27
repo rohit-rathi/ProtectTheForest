@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class FireSpawner : MonoBehaviour {
 
-    float minCordinate = -17.5f;
-    float maxCordinate = 17.5f;
-    float heightOfSpawn = 100.0f; // change this back to 300
+    int minCordinate = -17;
+    int maxCordinate = 17;
+    int heightOfSpawn = 200;
     int TIME_TO_START_FIREBALLS = 4;
 
     public GameObject fireBall;
     public GameObject fireOnLand;
+    int xInstantiated;
+    int zInstantiated;
+    int xMinNotValidCoordinate = -14;
+    int xMaxNotValidCoordinate = -10;
+    int zMinNotValidCoordinate = 0;
+    int zMaxNotValidCoordinate = 9;
+
 
     ArrayList listOfAllFires = new ArrayList(); // need this to see when counter is at 0 are there any fires still remaining to add more time
     
@@ -26,7 +33,22 @@ public class FireSpawner : MonoBehaviour {
 
     public void InstantiateFireBalls()
     {
-        Instantiate(fireBall, new Vector3(Random.Range(minCordinate, maxCordinate), heightOfSpawn, Random.Range(minCordinate, maxCordinate)), Quaternion.identity);
+        int xCount = 0;
+        do
+        {
+            xCount++;
+            xInstantiated = Random.Range(minCordinate, maxCordinate);
+        } while ((xInstantiated >= xMinNotValidCoordinate) && (xInstantiated <= xMaxNotValidCoordinate));
+
+        int zCount = 0;
+        do
+        {
+            zCount++;
+            zInstantiated = Random.Range(minCordinate, maxCordinate);
+        } while ((zInstantiated >= zMinNotValidCoordinate) && (zInstantiated <= zMaxNotValidCoordinate));
+        Debug.Log("xCount: " + xCount + "....!!!!.... zCount " + zCount + ".");
+
+        Instantiate(fireBall, new Vector3(xInstantiated, heightOfSpawn, zInstantiated), Quaternion.identity);
     }
 
     // use this to display countdown for asteroids so user is aware --> have a personal assistant speak to you -> like jarvis

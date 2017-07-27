@@ -34,7 +34,9 @@ public class DetectFireBallCollision : MonoBehaviour {
 
         else if (col.gameObject.CompareTag("NotBurnable"))
         {
+            Debug.Log("in water");
             fs.destroyFireBall(this.gameObject);
+            Debug.Log("destroyed");
         }
     }
 }
