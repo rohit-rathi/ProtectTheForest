@@ -7,21 +7,25 @@ public class WaterBucketOrganizer : MonoBehaviour
 
     public GameObject waterBucket;
     public GameObject balloonPoof;
+    public GameObject explosion;
 
     public GameObject[] waterParticles;
-    int balloonCount = 2;
+    int balloonCount = 1;
     int MAX_BUCKET_HEIGHT = 60;
 
     bool hasBeenRotated = false;
     float startTime = 0;
 
-    public Animator bucketRotationAnimation;
-    Animator anim;
+    GameObject explosionCopy;
+    bool instantiatedFireBurst = false;
+
+    float startTimeOfExplosion = 0;
+    bool needToDestroyExplosion = false;
 
     // Use this for initialization
     void Start()
     {
-        anim = GetComponentInChildren<Animator>();
+
     }
 
     // Update is called once per frame
@@ -41,13 +45,31 @@ public class WaterBucketOrganizer : MonoBehaviour
         }
         else
         {
-            //destroy the strings
-            //rotate the bucket --> use Triggers
-            Debug.Log("Setting trigger");
-            bucketRotationAnimation.SetTrigger("Change");
-            Debug.Log("should rotate now!");
-            // then clal DropWaterBucket
-            DropWaterBucket();
+            if(!instantiatedFireBurst)
+            {
+                //destroy all objects except water particles
+                Destroy(this.gameObject.transform.Find("Bucket").gameObject);
+                Destroy(this.gameObject.transform.Find("String").gameObject);
+                Destroy(this.gameObject.transform.Find("String (1)").gameObject);
+                Destroy(this.gameObject.transform.Find("Point light").gameObject);
+                Destroy(this.gameObject.transform.Find("Point light (1)").gameObject);
+                Destroy(this.gameObject.transform.Find("Point light (2)").gameObject);
+                Destroy(this.gameObject.transform.Find("Point light (3)").gameObject);
+
+                //enable an explosion
+                explosionCopy = Instantiate(explosion, this.gameObject.transform.position, Quaternion.identity);
+                instantiatedFireBurst = true;
+                needToDestroyExplosion = true;
+            }
+
+            startTime += Time.deltaTime;
+
+            if (startTime >= 2 && needToDestroyExplosion)
+            {
+                Destroy(explosionCopy);
+                needToDestroyExplosion = false;
+                Debug.Log("Detroyed explosion");
+            }
         }
     }
 
@@ -65,13 +87,5 @@ public class WaterBucketOrganizer : MonoBehaviour
     public void DecrementBalloonCount()
     {
         balloonCount--;
-    }
-
-    void DropWaterBucket()
-    {
-        if (this.gameObject.transform.position.y > 0)
-        {
-            this.gameObject.transform.Translate(0, -3.86f * Time.deltaTime, 0, Space.World);
-        }
     }
 }
