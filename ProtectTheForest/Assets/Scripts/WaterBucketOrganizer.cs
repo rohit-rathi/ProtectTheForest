@@ -11,7 +11,7 @@ public class WaterBucketOrganizer : MonoBehaviour
 
     public GameObject[] waterParticles;
     int balloonCount = 1;
-    int MAX_BUCKET_HEIGHT = 60;
+    int MAX_BUCKET_HEIGHT = 60; // need to change this
 
     bool hasBeenRotated = false;
     float startTime = 0;
@@ -68,7 +68,6 @@ public class WaterBucketOrganizer : MonoBehaviour
             {
                 Destroy(explosionCopy);
                 needToDestroyExplosion = false;
-                Debug.Log("Detroyed explosion");
             }
         }
     }

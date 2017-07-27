@@ -22,9 +22,11 @@ public class Balloon : MonoBehaviour {
     {
         if (col.gameObject.CompareTag("Arrow"))
         {
+            Arrow.DestroyArrow(col.gameObject);
             DestroyBalloon(this.gameObject.transform.position);
         }
     }
+
     void DestroyBalloon(Vector3 hitPosition)
     {
         Destroy(this.gameObject);
