@@ -18,8 +18,7 @@ public class FireSpawner : MonoBehaviour {
     int zMinNotValidCoordinate = 0;
     int zMaxNotValidCoordinate = 9;
 
-
-    ArrayList listOfAllFires = new ArrayList(); // need this to see when counter is at 0 are there any fires still remaining to add more time
+    ArrayList fireList = new ArrayList();
     
     // Use this for initialization
     void Start () {
@@ -33,20 +32,15 @@ public class FireSpawner : MonoBehaviour {
 
     public void InstantiateFireBalls()
     {
-        int xCount = 0;
         do
         {
-            xCount++;
             xInstantiated = Random.Range(minCordinate, maxCordinate);
         } while ((xInstantiated >= xMinNotValidCoordinate) && (xInstantiated <= xMaxNotValidCoordinate));
 
-        int zCount = 0;
         do
         {
-            zCount++;
             zInstantiated = Random.Range(minCordinate, maxCordinate);
         } while ((zInstantiated >= zMinNotValidCoordinate) && (zInstantiated <= zMaxNotValidCoordinate));
-        Debug.Log("xCount: " + xCount + "....!!!!.... zCount " + zCount + ".");
 
         Instantiate(fireBall, new Vector3(xInstantiated, heightOfSpawn, zInstantiated), Quaternion.identity);
     }
@@ -59,12 +53,14 @@ public class FireSpawner : MonoBehaviour {
 
     public void StartFire(Vector3 startPosition)
     {
-        listOfAllFires.Add(Instantiate(fireOnLand, startPosition, Quaternion.identity));
+        fireList.Add(Instantiate(fireOnLand, startPosition, Quaternion.identity));
     }
 
-    public void destroyFire()
+    public void destroyFire(int fireIndex)
     {
-
+        GameObject fire = (GameObject)fireList[fireIndex];
+        //fire.SetActive(false);
+        Destroy(fire);
     }
 
     public void destroyFireBall(GameObject ballToDestroy)

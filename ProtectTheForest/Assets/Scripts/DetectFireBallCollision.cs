@@ -18,15 +18,11 @@ public class DetectFireBallCollision : MonoBehaviour {
         bucketOrganizer = WaterBucket.GetComponent<WaterBucketOrganizer>();
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     public void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.CompareTag("Burnable"))
         {
+            //GameObject fireOnLand = fs.StartFire(this.gameObject.transform.position);
             fs.StartFire(this.gameObject.transform.position);
             fs.destroyFireBall(this.gameObject);
             bucketOrganizer.InstantiateWaterBucket(this.gameObject.transform.position);
@@ -34,9 +30,7 @@ public class DetectFireBallCollision : MonoBehaviour {
 
         else if (col.gameObject.CompareTag("NotBurnable"))
         {
-            Debug.Log("in water");
             fs.destroyFireBall(this.gameObject);
-            Debug.Log("destroyed");
         }
     }
 }

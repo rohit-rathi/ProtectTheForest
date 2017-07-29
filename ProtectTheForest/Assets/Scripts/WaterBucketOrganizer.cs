@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class WaterBucketOrganizer : MonoBehaviour
 {
-
     public GameObject waterBucket;
     public GameObject balloonPoof;
     public GameObject explosion;
 
-    public GameObject[] waterParticles;
     int balloonCount = 1;
     int MAX_BUCKET_HEIGHT = 60; // need to change this
 
@@ -22,10 +20,25 @@ public class WaterBucketOrganizer : MonoBehaviour
     float startTimeOfExplosion = 0;
     bool needToDestroyExplosion = false;
 
+    Vector3 instantiatedPosition;
+    GameObject water;
+    bool needToDropWater = false;
+
+    static int IDNumber = -1;
+    int ID;
+
+    GameObject FireBallManager;
+    FireSpawner fs;
+
     // Use this for initialization
     void Start()
     {
+        water = this.gameObject.transform.Find("WaterParticles").gameObject;
 
+        FireBallManager = GameObject.Find("FireBallManager");
+        fs = FireBallManager.GetComponent<FireSpawner>();
+
+        ID = ++IDNumber;
     }
 
     // Update is called once per frame
@@ -60,15 +73,33 @@ public class WaterBucketOrganizer : MonoBehaviour
                 explosionCopy = Instantiate(explosion, this.gameObject.transform.position, Quaternion.identity);
                 instantiatedFireBurst = true;
                 needToDestroyExplosion = true;
+                needToDropWater = true;
+
             }
 
             startTime += Time.deltaTime;
 
-            if (startTime >= 2 && needToDestroyExplosion)
+            if (needToDestroyExplosion && startTime >= 2)
             {
                 Destroy(explosionCopy);
                 needToDestroyExplosion = false;
             }
+
+            // need to drop water
+            if(needToDropWater)
+            {
+                water.GetComponent<Collider>().enabled = true;
+                if (water.transform.position.y > instantiatedPosition.y)
+                {
+                    water.transform.Translate(0, -7f * Time.deltaTime, 0, Space.World);
+                }
+                else
+                {
+                    fs.destroyFire(ID);
+                    needToDropWater = false;
+                    Destroy(water);
+                }
+            } 
         }
     }
 
@@ -81,6 +112,7 @@ public class WaterBucketOrganizer : MonoBehaviour
     public void InstantiateWaterBucket(Vector3 location)
     {
         Instantiate(waterBucket, location, Quaternion.identity);
+        instantiatedPosition = location;
     }
 
     public void DecrementBalloonCount()
