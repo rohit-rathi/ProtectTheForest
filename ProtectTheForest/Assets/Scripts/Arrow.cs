@@ -8,6 +8,7 @@ public class Arrow : MonoBehaviour
     bool isArrowAttached = false;
     bool isFired = false;
     bool haloOn = false;
+    float timeSinceArrowFired = 0;
 
     void OnTriggerStay()
     {
@@ -27,6 +28,11 @@ public class Arrow : MonoBehaviour
                 TurnOnHalo();
             }
             transform.LookAt(transform.position + transform.GetComponent<Rigidbody>().velocity);
+            timeSinceArrowFired += Time.deltaTime;
+            if(timeSinceArrowFired >= 10)
+            {
+                Destroy(this.gameObject);
+            }
         }
     }
 
@@ -57,4 +63,6 @@ public class Arrow : MonoBehaviour
         halo.GetType().GetProperty("enabled").SetValue(halo, true, null);
         haloOn = true;
     }
+
+
 }
