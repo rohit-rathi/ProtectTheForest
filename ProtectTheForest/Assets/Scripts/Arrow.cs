@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-
+     
     bool isArrowAttached = false;
     bool isFired = false;
+    bool haloOn = false;
 
     void OnTriggerStay()
     {
@@ -21,6 +22,10 @@ public class Arrow : MonoBehaviour
     {
         if (isFired)
         {
+            if(!haloOn)
+            {
+                TurnOnHalo();
+            }
             transform.LookAt(transform.position + transform.GetComponent<Rigidbody>().velocity);
         }
     }
@@ -43,5 +48,13 @@ public class Arrow : MonoBehaviour
     public static void DestroyArrow(GameObject arrowToDestroy)
     {
         Destroy(arrowToDestroy);
+    }
+
+    void TurnOnHalo()
+    {
+        Light pointLight = this.gameObject.GetComponentInChildren<Light>();
+        Component halo = pointLight.GetComponent("Halo");
+        halo.GetType().GetProperty("enabled").SetValue(halo, true, null);
+        haloOn = true;
     }
 }
