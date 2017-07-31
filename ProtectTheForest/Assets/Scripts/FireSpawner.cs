@@ -2,36 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Manage the fire on the land and the fireball.
 public class FireSpawner : MonoBehaviour {
 
+    // square area of where fireballs can be instantiated.
     int minCordinate = -17;
     int maxCordinate = 17;
+
     int heightOfSpawn = 200;
-    int TIME_TO_START_FIREBALLS = 4;
+    int timeToStartFireballs = 5;
+    int timeIntervalOfFireballInstantiation = 5;
 
     public GameObject fireBall;
     public GameObject fireOnLand;
+
+    // actual x and z cordinates of where fireballs are instantiated
     int xInstantiated;
     int zInstantiated;
+
+    // avoid fireballs being instantitaed directly over player area to ensure no fireballs lands on the player
     int xMinNotValidCoordinate = -14;
     int xMaxNotValidCoordinate = -10;
     int zMinNotValidCoordinate = 0;
     int zMaxNotValidCoordinate = 9;
 
+    // list of all fires instantiated with fireList[0] being the first fire instantiated in the game
     ArrayList fireList = new ArrayList();
     
     // Use this for initialization
     void Start () {
-        InvokeRepeating("InstantiateFireBalls", TIME_TO_START_FIREBALLS, 5);
+        InvokeRepeating("InstantiateFireBalls", timeToStartFireballs, timeIntervalOfFireballInstantiation);
     }
-
-    // Update is called once per frame
-    void Update () {
-
-	}
 
     public void InstantiateFireBalls()
     {
+        // get a random VALID x and z coordinates for where fireballs are instantiated
         do
         {
             xInstantiated = Random.Range(minCordinate, maxCordinate);
@@ -45,10 +50,9 @@ public class FireSpawner : MonoBehaviour {
         Instantiate(fireBall, new Vector3(xInstantiated, heightOfSpawn, zInstantiated), Quaternion.identity);
     }
 
-    // use this to display countdown for asteroids so user is aware --> have a personal assistant speak to you -> like jarvis
     public int GetStartFireBall()
     {
-        return TIME_TO_START_FIREBALLS;
+        return timeToStartFireballs;
     }
 
     public void StartFire(Vector3 startPosition)
@@ -59,7 +63,6 @@ public class FireSpawner : MonoBehaviour {
     public void destroyFire(int fireIndex)
     {
         GameObject fire = (GameObject)fireList[fireIndex];
-        //fire.SetActive(false);
         Destroy(fire);
     }
 

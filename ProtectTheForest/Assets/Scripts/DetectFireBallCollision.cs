@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Detects if this instance of fireball collides with the terrain.
 public class DetectFireBallCollision : MonoBehaviour {
 
     GameObject FireBallManager;
@@ -22,13 +23,12 @@ public class DetectFireBallCollision : MonoBehaviour {
     {
         if (col.gameObject.CompareTag("Burnable"))
         {
-            //GameObject fireOnLand = fs.StartFire(this.gameObject.transform.position);
             fs.StartFire(this.gameObject.transform.position);
             fs.destroyFireBall(this.gameObject);
             bucketOrganizer.InstantiateWaterBucket(this.gameObject.transform.position);
         }
 
-        else if (col.gameObject.CompareTag("NotBurnable"))
+        else if (col.gameObject.CompareTag("NotBurnable")) // am i still instantiating fire in the water
         {
             fs.destroyFireBall(this.gameObject);
         }

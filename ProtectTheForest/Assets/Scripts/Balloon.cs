@@ -13,11 +13,6 @@ public class Balloon : MonoBehaviour {
         bucketOrganizer = WaterBucket.GetComponent<WaterBucketOrganizer>();
     }
 
-    // Update is called once per frame
-    void Update () {
-		
-	}
-
     void OnTriggerStay(Collider col)
     {
         if (col.gameObject.CompareTag("Arrow"))

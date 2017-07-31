@@ -7,28 +7,27 @@ public class WaterBucketOrganizer : MonoBehaviour
     public GameObject waterBucket;
     public GameObject balloonPoof;
     public GameObject explosion;
+    GameObject explosionCopy;
+    Vector3 instantiatedPosition;
+    GameObject water;
+    GameObject FireBallManager;
+    FireSpawner fs;
 
     int balloonCount = 1;
-    int MAX_BUCKET_HEIGHT = 60; // need to change this
+    int maxBucketHeight = 60;
 
-    bool hasBeenRotated = false;
     float startTime = 0;
 
-    GameObject explosionCopy;
     bool instantiatedFireBurst = false;
 
     float startTimeOfExplosion = 0;
     bool needToDestroyExplosion = false;
 
-    Vector3 instantiatedPosition;
-    GameObject water;
     bool needToDropWater = false;
 
+    // Use this to give a unique ID to each bucket
     static int IDNumber = -1;
     int ID;
-
-    GameObject FireBallManager;
-    FireSpawner fs;
 
     // Use this for initialization
     void Start()
@@ -44,10 +43,9 @@ public class WaterBucketOrganizer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (balloonCount > 0)
         {
-            if (this.gameObject.transform.position.y < MAX_BUCKET_HEIGHT)
+            if (this.gameObject.transform.position.y < maxBucketHeight)
             {
                 this.gameObject.transform.Translate(0, 2f * Time.deltaTime, 0, Space.World);
             }
@@ -85,10 +83,8 @@ public class WaterBucketOrganizer : MonoBehaviour
                 needToDestroyExplosion = false;
             }
 
-            // need to drop water
             if(needToDropWater)
             {
-                water.GetComponent<Collider>().enabled = true;
                 if (water.transform.position.y > instantiatedPosition.y)
                 {
                     water.transform.Translate(0, -7f * Time.deltaTime, 0, Space.World);
@@ -97,7 +93,7 @@ public class WaterBucketOrganizer : MonoBehaviour
                 {
                     fs.destroyFire(ID);
                     needToDropWater = false;
-                    Destroy(water);
+                    Destroy(this.gameObject);
                 }
             } 
         }
