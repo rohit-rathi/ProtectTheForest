@@ -48,6 +48,7 @@ public class WaterBucketOrganizer : MonoBehaviour
             else
             {
                 DestroyEntireBucket(this.gameObject.transform.position);
+                GameMaster.DecreaseLives();
             }
         }
         else
