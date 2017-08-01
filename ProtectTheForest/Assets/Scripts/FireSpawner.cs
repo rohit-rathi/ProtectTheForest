@@ -15,6 +15,7 @@ public class FireSpawner : MonoBehaviour {
 
     public GameObject fireBall;
     public GameObject fireOnLand;
+    public GameObject fireExtinguish;
 
     // actual x and z cordinates of where fireballs are instantiated
     int xInstantiated;
@@ -63,7 +64,10 @@ public class FireSpawner : MonoBehaviour {
     public void destroyFire(int fireIndex)
     {
         GameObject fire = (GameObject)fireList[fireIndex];
+        Vector3 position = fire.transform.position;
         Destroy(fire);
+        Instantiate(fireExtinguish, position, Quaternion.identity);
+        //have the sizzling sound play in the background here!!! //////////////////////////***********************************************/////////////////////////////////
     }
 
     public void destroyFireBall(GameObject ballToDestroy)

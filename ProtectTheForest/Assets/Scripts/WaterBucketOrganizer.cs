@@ -7,7 +7,6 @@ public class WaterBucketOrganizer : MonoBehaviour
     public GameObject waterBucket;
     public GameObject balloonPoof;
     public GameObject explosion;
-    GameObject explosionCopy;
     Vector3 instantiatedPosition;
     GameObject water;
     GameObject FireBallManager;
@@ -16,12 +15,9 @@ public class WaterBucketOrganizer : MonoBehaviour
     int balloonCount = 1;
     int maxBucketHeight = 60;
 
-    float startTime = 0;
-
     bool instantiatedFireBurst = false;
 
     float startTimeOfExplosion = 0;
-    bool needToDestroyExplosion = false;
 
     bool needToDropWater = false;
 
@@ -67,20 +63,9 @@ public class WaterBucketOrganizer : MonoBehaviour
                 Destroy(this.gameObject.transform.Find("Point light (2)").gameObject);
                 Destroy(this.gameObject.transform.Find("Point light (3)").gameObject);
 
-                //enable an explosion
-                explosionCopy = Instantiate(explosion, this.gameObject.transform.position, Quaternion.identity);
                 instantiatedFireBurst = true;
-                needToDestroyExplosion = true;
                 needToDropWater = true;
 
-            }
-
-            startTime += Time.deltaTime;
-
-            if (needToDestroyExplosion && startTime >= 2)
-            {
-                Destroy(explosionCopy);
-                needToDestroyExplosion = false;
             }
 
             if(needToDropWater)
