@@ -10,7 +10,7 @@ public class GameMaster : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        StartCoroutine(DecreaseBallTimeInterval());
 	}
 	
 	// Update is called once per frame
@@ -21,8 +21,16 @@ public class GameMaster : MonoBehaviour {
             endFire.SetActive(true);
             gameOver = true;
         }
-		
 	}
+
+    IEnumerator DecreaseBallTimeInterval()
+    {
+        while(true)
+        {
+            FireSpawner.DecreaseFireBallTimeInterval();
+            yield return new WaitForSeconds(20f);
+        }
+    }
 
     public static void DecreaseLives()
     {

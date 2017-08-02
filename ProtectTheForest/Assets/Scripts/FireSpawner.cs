@@ -11,7 +11,7 @@ public class FireSpawner : MonoBehaviour {
 
     int heightOfSpawn = 200;
     int timeToStartFireballs = 5;
-    int timeIntervalOfFireballInstantiation = 5;
+    static int timeIntervalOfFireballInstantiation = 6;
 
     public GameObject fireBall;
     public GameObject fireOnLand;
@@ -32,23 +32,29 @@ public class FireSpawner : MonoBehaviour {
     
     // Use this for initialization
     void Start () {
-        InvokeRepeating("InstantiateFireBalls", timeToStartFireballs, timeIntervalOfFireballInstantiation);
+        //InvokeRepeating("InstantiateFireBalls", timeToStartFireballs, timeIntervalOfFireballInstantiation);
+        StartCoroutine(InstantiateFireBalls());
     }
 
-    public void InstantiateFireBalls()
+    IEnumerator InstantiateFireBalls()
     {
-        // get a random VALID x and z coordinates for where fireballs are instantiated
-        do
+        while (true)
         {
-            xInstantiated = Random.Range(minCordinate, maxCordinate);
-        } while ((xInstantiated >= xMinNotValidCoordinate) && (xInstantiated <= xMaxNotValidCoordinate));
+            // get a random VALID x and z coordinates for where fireballs are instantiated
+            do
+            {
+                xInstantiated = Random.Range(minCordinate, maxCordinate);
+            } while ((xInstantiated >= xMinNotValidCoordinate) && (xInstantiated <= xMaxNotValidCoordinate));
 
-        do
-        {
-            zInstantiated = Random.Range(minCordinate, maxCordinate);
-        } while ((zInstantiated >= zMinNotValidCoordinate) && (zInstantiated <= zMaxNotValidCoordinate));
+            do
+            {
+                zInstantiated = Random.Range(minCordinate, maxCordinate);
+            } while ((zInstantiated >= zMinNotValidCoordinate) && (zInstantiated <= zMaxNotValidCoordinate));
 
-        Instantiate(fireBall, new Vector3(xInstantiated, heightOfSpawn, zInstantiated), Quaternion.identity);
+            Instantiate(fireBall, new Vector3(xInstantiated, heightOfSpawn, zInstantiated), Quaternion.identity);
+
+            yield return new WaitForSeconds(timeIntervalOfFireballInstantiation);
+        }
     }
 
     public int GetStartFireBall()
@@ -73,5 +79,14 @@ public class FireSpawner : MonoBehaviour {
     public void destroyFireBall(GameObject ballToDestroy)
     {
         Destroy(ballToDestroy);
+    }
+
+    public static void DecreaseFireBallTimeInterval()
+    {
+        if(timeIntervalOfFireballInstantiation > 1)
+        {
+            timeIntervalOfFireballInstantiation--;
+        }
+        Debug.Log("Decrease time. Time is now " + timeIntervalOfFireballInstantiation);
     }
 }
