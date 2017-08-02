@@ -87,6 +87,6 @@ public class FireSpawner : MonoBehaviour {
         {
             timeIntervalOfFireballInstantiation--;
         }
-        Debug.Log("Decrease time. Time is now " + timeIntervalOfFireballInstantiation);
+        //Debug.Log("Decrease time. Time is now " + timeIntervalOfFireballInstantiation);
     }
 }

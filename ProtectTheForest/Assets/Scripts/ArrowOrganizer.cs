@@ -107,5 +107,6 @@ public class ArrowOrganizer : MonoBehaviour {
         stringOnBow.transform.position = stringStartPoint.transform.position; // reset the string so that the bow is ready to be used again
         currentArrow = null;
         isArrowAttached = false;
+
     }
 }
