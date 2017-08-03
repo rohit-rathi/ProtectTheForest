@@ -11,6 +11,7 @@ public class WaterBucketOrganizer : MonoBehaviour
     GameObject water;
     GameObject FireBallManager;
     FireSpawner fs;
+    GameMaster gm;
 
     int balloonCount = 1;
     int maxBucketHeight = 60;
@@ -32,6 +33,8 @@ public class WaterBucketOrganizer : MonoBehaviour
 
         FireBallManager = GameObject.Find("FireBallManager");
         fs = FireBallManager.GetComponent<FireSpawner>();
+        gm = GameObject.Find("GameMasterObj").GetComponent<GameMaster>();
+
 
         ID = ++IDNumber;
     }
@@ -48,7 +51,7 @@ public class WaterBucketOrganizer : MonoBehaviour
             else
             {
                 DestroyEntireBucket(this.gameObject.transform.position);
-                GameMaster.DecreaseLives();
+                gm.DecreaseLives();
             }
         }
         else

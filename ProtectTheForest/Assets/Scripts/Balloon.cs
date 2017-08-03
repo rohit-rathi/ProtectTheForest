@@ -7,10 +7,13 @@ public class Balloon : MonoBehaviour {
     public GameObject balloonPop;
     public GameObject WaterBucket;
     WaterBucketOrganizer bucketOrganizer;
+    //GameObject gameMasterObj;
+    GameMaster gm;
 
     // Use this for initialization
     void Start () {
         bucketOrganizer = WaterBucket.GetComponent<WaterBucketOrganizer>();
+        gm = GameObject.Find("GameMasterObj").GetComponent<GameMaster>();
     }
 
     void OnTriggerStay(Collider col)
@@ -27,5 +30,6 @@ public class Balloon : MonoBehaviour {
         Destroy(this.gameObject);
         Instantiate(balloonPop, hitPosition, Quaternion.identity);
         bucketOrganizer.DecrementBalloonCount();
+        gm.IncreaseScore();
     }
 }

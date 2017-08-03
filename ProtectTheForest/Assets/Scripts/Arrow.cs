@@ -63,6 +63,4 @@ public class Arrow : MonoBehaviour
         halo.GetType().GetProperty("enabled").SetValue(halo, true, null);
         haloOn = true;
     }
-
-
 }

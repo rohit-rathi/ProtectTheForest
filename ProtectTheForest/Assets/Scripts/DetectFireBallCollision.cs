@@ -11,12 +11,16 @@ public class DetectFireBallCollision : MonoBehaviour {
     public GameObject WaterBucket;
     WaterBucketOrganizer bucketOrganizer;
 
+    AudioPicker picker;
+
     // Use this for initialization
     void Start () {
         FireBallManager = GameObject.Find("FireBallManager");
         fs = FireBallManager.GetComponent<FireSpawner>();
 
         bucketOrganizer = WaterBucket.GetComponent<WaterBucketOrganizer>();
+
+        picker = GameObject.Find("ImpactSound").GetComponent<AudioPicker>();
     }
 	
     public void OnCollisionEnter(Collision col)
@@ -26,6 +30,7 @@ public class DetectFireBallCollision : MonoBehaviour {
             fs.StartFire(this.gameObject.transform.position);
             fs.destroyFireBall(this.gameObject);
             bucketOrganizer.InstantiateWaterBucket(this.gameObject.transform.position);
+            picker.PlayFireballHit();
         }
 
         else if (col.gameObject.CompareTag("NotBurnable")) // am i still instantiating fire in the water

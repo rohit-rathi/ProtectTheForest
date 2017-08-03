@@ -29,11 +29,14 @@ public class FireSpawner : MonoBehaviour {
 
     // list of all fires instantiated with fireList[0] being the first fire instantiated in the game
     ArrayList fireList = new ArrayList();
-    
+
+    AudioPicker picker;
+
     // Use this for initialization
     void Start () {
         //InvokeRepeating("InstantiateFireBalls", timeToStartFireballs, timeIntervalOfFireballInstantiation);
         StartCoroutine(InstantiateFireBalls());
+        picker = GameObject.Find("ImpactSound").GetComponent<AudioPicker>();
     }
 
     IEnumerator InstantiateFireBalls()
@@ -71,9 +74,9 @@ public class FireSpawner : MonoBehaviour {
     {
         GameObject fire = (GameObject)fireList[fireIndex];
         Vector3 position = fire.transform.position;
+        picker.PlayFireOut();
         Destroy(fire);
         Instantiate(fireExtinguish, position, Quaternion.identity);
-        //have the sizzling sound play in the background here!!! //////////////////////////***********************************************/////////////////////////////////
     }
 
     public void destroyFireBall(GameObject ballToDestroy)
@@ -87,6 +90,5 @@ public class FireSpawner : MonoBehaviour {
         {
             timeIntervalOfFireballInstantiation--;
         }
-        //Debug.Log("Decrease time. Time is now " + timeIntervalOfFireballInstantiation);
     }
 }
