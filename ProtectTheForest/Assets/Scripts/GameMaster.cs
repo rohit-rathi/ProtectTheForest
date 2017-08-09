@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GameMaster : MonoBehaviour {
 
-    private static int lives = 5;
+    private static int lives = 6;
     public GameObject endFire;
     bool gameOver = false;
     static int score = 0;
@@ -14,6 +14,8 @@ public class GameMaster : MonoBehaviour {
     public Text livesText;
     public Text gameOverText;
     int bonusPoints = 0;
+    static int fireBallTimeIntervalSeconds = 15;
+    float startTime = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -47,7 +49,7 @@ public class GameMaster : MonoBehaviour {
         while(true)
         {
             FireSpawner.DecreaseFireBallTimeInterval();
-            yield return new WaitForSeconds(20f);
+            yield return new WaitForSeconds(fireBallTimeIntervalSeconds);
         }
     }
 
@@ -74,5 +76,10 @@ public class GameMaster : MonoBehaviour {
     void SetLivesText()
     {
         livesText.text = "Lives: " + lives.ToString();
+    }
+
+    public static void ChangeFireBallTimeIntervalSeconds(int value)
+    {
+        fireBallTimeIntervalSeconds = value;
     }
 }

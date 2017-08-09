@@ -10,7 +10,7 @@ public class FireSpawner : MonoBehaviour {
     int maxCordinate = 17;
 
     int heightOfSpawn = 200;
-    int timeToStartFireballs = 5;
+    int timeToStartFireballs = 6;
     static int timeIntervalOfFireballInstantiation = 6;
 
     public GameObject fireBall;
@@ -89,6 +89,14 @@ public class FireSpawner : MonoBehaviour {
         if(timeIntervalOfFireballInstantiation > 1)
         {
             timeIntervalOfFireballInstantiation--;
+           if (timeIntervalOfFireballInstantiation == 3)
+            {
+                GameMaster.ChangeFireBallTimeIntervalSeconds(30);
+            }
+            else if (timeIntervalOfFireballInstantiation == 2)
+            {
+                GameMaster.ChangeFireBallTimeIntervalSeconds(60);
+            }
         }
     }
 }
