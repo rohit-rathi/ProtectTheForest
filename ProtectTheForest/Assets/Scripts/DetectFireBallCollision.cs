@@ -10,6 +10,10 @@ public class DetectFireBallCollision : MonoBehaviour {
 
     public GameObject WaterBucket;
     WaterBucketOrganizer bucketOrganizer;
+    public GameObject SpecialBucket;
+    static bool isSpecialBucket = false;
+
+    GameObject typeOfBucket;
 
     AudioPicker picker;
 
@@ -17,8 +21,15 @@ public class DetectFireBallCollision : MonoBehaviour {
     void Start () {
         FireBallManager = GameObject.Find("FireBallManager");
         fs = FireBallManager.GetComponent<FireSpawner>();
-
-        bucketOrganizer = WaterBucket.GetComponent<WaterBucketOrganizer>();
+        if(isSpecialBucket)
+        {
+            typeOfBucket = SpecialBucket;
+        }
+        else
+        {
+            typeOfBucket = WaterBucket;
+        }
+        bucketOrganizer = typeOfBucket.GetComponent<WaterBucketOrganizer>();
 
         picker = GameObject.Find("ImpactSound").GetComponent<AudioPicker>();
     }
@@ -29,13 +40,22 @@ public class DetectFireBallCollision : MonoBehaviour {
         {
             fs.StartFire(this.gameObject.transform.position);
             fs.destroyFireBall(this.gameObject);
-            bucketOrganizer.InstantiateWaterBucket(this.gameObject.transform.position);
+            bucketOrganizer.InstantiateWaterBucket(this.gameObject.transform.position, isSpecialBucket);
             picker.PlayFireballHit();
+            if(isSpecialBucket)
+            {
+                isSpecialBucket = false;
+            }
         }
 
         else if (col.gameObject.CompareTag("NotBurnable")) // am i still instantiating fire in the water
         {
             fs.destroyFireBall(this.gameObject);
         }
+    }
+
+    public static void changeTypeOfBucket()
+    {
+        isSpecialBucket = true;
     }
 }

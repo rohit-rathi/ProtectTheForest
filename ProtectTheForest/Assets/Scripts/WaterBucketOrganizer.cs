@@ -5,6 +5,7 @@ using UnityEngine;
 public class WaterBucketOrganizer : MonoBehaviour
 {
     public GameObject waterBucket;
+    public GameObject SpecialBucket;
     public GameObject balloonPoof;
     public GameObject explosion;
     Vector3 instantiatedPosition;
@@ -94,9 +95,16 @@ public class WaterBucketOrganizer : MonoBehaviour
         Instantiate(balloonPoof, poofLocation, Quaternion.identity);
     }
 
-    public void InstantiateWaterBucket(Vector3 location)
+    public void InstantiateWaterBucket(Vector3 location, bool specialBucket)
     {
-        Instantiate(waterBucket, location, Quaternion.identity);
+        if(specialBucket)
+        {
+            Instantiate(SpecialBucket, location, Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(waterBucket, location, Quaternion.identity);
+        }
         instantiatedPosition = location;
     }
 

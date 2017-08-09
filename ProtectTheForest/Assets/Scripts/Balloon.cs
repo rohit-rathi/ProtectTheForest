@@ -7,7 +7,6 @@ public class Balloon : MonoBehaviour {
     public GameObject balloonPop;
     public GameObject WaterBucket;
     WaterBucketOrganizer bucketOrganizer;
-    //GameObject gameMasterObj;
     GameMaster gm;
 
     // Use this for initialization
@@ -31,5 +30,10 @@ public class Balloon : MonoBehaviour {
         Instantiate(balloonPop, hitPosition, Quaternion.identity);
         bucketOrganizer.DecrementBalloonCount();
         gm.IncreaseScore();
+        if(this.gameObject.tag == "SpecialBalloon")
+        {
+            Debug.Log("Increasing life");
+            gm.IncreaseLife();
+        }
     }
 }

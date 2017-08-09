@@ -16,18 +16,21 @@ public class GameMaster : MonoBehaviour {
     int bonusPoints = 0;
     static int fireBallTimeIntervalSeconds = 15;
     float startTime = 0;
+    AudioPicker picker;
+    int nextGoldenBalloonTime = 60;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         StartCoroutine(DecreaseBallTimeInterval());
         SetScoreText();
         SetLivesText();
         gameOverText.text = "";
 
+        picker = GameObject.Find("ImpactSound").GetComponent<AudioPicker>();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
         if (!gameOver && Time.time >= nextAddBonusTime)
         {
             score += 30;
@@ -35,7 +38,13 @@ public class GameMaster : MonoBehaviour {
             SetScoreText();
             bonusPoints++;
         }
-        
+
+        if(!gameOver && Time.time >= nextGoldenBalloonTime)
+        {
+            DetectFireBallCollision.changeTypeOfBucket();
+            nextGoldenBalloonTime += 40;
+        }
+
         if (!gameOver && lives <= 0)
         {
             endFire.SetActive(true);
@@ -58,6 +67,7 @@ public class GameMaster : MonoBehaviour {
         if (lives > 0)
         {
             lives--;
+            picker.PlayLifeLost();
         }
         SetLivesText();
     }
@@ -81,5 +91,15 @@ public class GameMaster : MonoBehaviour {
     public static void ChangeFireBallTimeIntervalSeconds(int value)
     {
         fireBallTimeIntervalSeconds = value;
+    }
+
+    public void IncreaseLife()
+    {
+        if (lives < 6)
+        {
+            lives++;
+        }
+        SetLivesText();
+        picker.PlayLifeBack();
     }
 }
