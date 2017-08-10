@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class GameMaster : MonoBehaviour {
 
     private static int lives = 6;
-    public GameObject endFire;
     bool gameOver = false;
     static int score = 0;
     int nextAddBonusTime = 30;
@@ -18,7 +17,11 @@ public class GameMaster : MonoBehaviour {
     float startTime = 0;
     AudioPicker picker;
     int nextGoldenBalloonTime = 60;
-
+    public GameObject leftcontroller;
+    public GameObject rightcontroller;
+    public GameObject bowController;
+    public Button restart;
+    public Button training;
     // Use this for initialization
     void Start () {
         StartCoroutine(DecreaseBallTimeInterval());
@@ -47,9 +50,13 @@ public class GameMaster : MonoBehaviour {
 
         if (!gameOver && lives <= 0)
         {
-            endFire.SetActive(true);
             gameOver = true;
-            gameOverText.text = "GAME OVER!\nFinal Score: " + score.ToString();
+            gameOverText.text = "GAME OVER";
+            leftcontroller.SetActive(true);
+            rightcontroller.SetActive(true);
+            bowController.SetActive(false);
+            restart.gameObject.SetActive(true);
+            training.gameObject.SetActive(true);
         }
     }
 
