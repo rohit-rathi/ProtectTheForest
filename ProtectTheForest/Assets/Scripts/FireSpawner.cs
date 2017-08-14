@@ -11,7 +11,7 @@ public class FireSpawner : MonoBehaviour {
 
     int heightOfSpawn = 200;
     int timeToStartFireballs = 6;
-    static int timeIntervalOfFireballInstantiation = 6;
+    static int timeIntervalOfFireballInstantiation;
 
     public GameObject fireBall;
     public GameObject fireOnLand;
@@ -32,16 +32,23 @@ public class FireSpawner : MonoBehaviour {
 
     AudioPicker picker;
 
+    bool instantiateFireballs;
+
+    void Awake()
+    {
+        timeIntervalOfFireballInstantiation = 6;
+        instantiateFireballs = true;
+    }
+
     // Use this for initialization
     void Start () {
-        //InvokeRepeating("InstantiateFireBalls", timeToStartFireballs, timeIntervalOfFireballInstantiation);
         StartCoroutine(InstantiateFireBalls());
         picker = GameObject.Find("ImpactSound").GetComponent<AudioPicker>();
     }
 
     IEnumerator InstantiateFireBalls()
     {
-        while (true)
+        while (instantiateFireballs)
         {
             // get a random VALID x and z coordinates for where fireballs are instantiated
             do
@@ -91,12 +98,17 @@ public class FireSpawner : MonoBehaviour {
             timeIntervalOfFireballInstantiation--;
            if (timeIntervalOfFireballInstantiation == 3)
             {
-                GameMaster.ChangeFireBallTimeIntervalSeconds(30);
+                GameMaster.ChangeFireBallTimeIntervalSeconds(120);
             }
             else if (timeIntervalOfFireballInstantiation == 2)
             {
-                GameMaster.ChangeFireBallTimeIntervalSeconds(60);
+                GameMaster.ChangeFireBallTimeIntervalSeconds(120);
             }
         }
+    }
+
+    public void changeInstantiateFireballStatus()
+    {
+        instantiateFireballs = false;
     }
 }

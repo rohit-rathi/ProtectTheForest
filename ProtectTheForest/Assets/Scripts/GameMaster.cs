@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameMaster : MonoBehaviour {
+public class GameMaster : MonoBehaviour
+{
 
-    private static int lives = 6;
+    private static int lives; ///*****CHANGE THIS BACK TO 6 
     bool gameOver = false;
-    static int score = 0;
+    static int score;
     int nextAddBonusTime = 30;
     public Text scoreText;
     public Text livesText;
@@ -22,19 +23,41 @@ public class GameMaster : MonoBehaviour {
     public GameObject bowController;
     public Button restart;
     public Button training;
+    GameObject FireBallManager;
+    FireSpawner fs;
+    static int bucketID;
+    float time;
+
+
+    void Awake()
+    {
+        SetScoreText();
+        SetLivesText();
+        lives = 1;
+        score = 0;
+        fireBallTimeIntervalSeconds = 15;
+        bucketID = -1;
+        time = 0;
+    }
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         StartCoroutine(DecreaseBallTimeInterval());
         SetScoreText();
         SetLivesText();
         gameOverText.text = "";
 
         picker = GameObject.Find("ImpactSound").GetComponent<AudioPicker>();
+        FireBallManager = GameObject.Find("FireBallManager");
+        fs = FireBallManager.GetComponent<FireSpawner>();
+
     }
 
     // Update is called once per frame
-    void Update () {
-        if (!gameOver && Time.time >= nextAddBonusTime)
+    void Update()
+    {
+        time += Time.deltaTime;
+        if (!gameOver && time >= nextAddBonusTime)
         {
             score += 30;
             nextAddBonusTime += 30;
@@ -42,7 +65,7 @@ public class GameMaster : MonoBehaviour {
             bonusPoints++;
         }
 
-        if(!gameOver && Time.time >= nextGoldenBalloonTime)
+        if (!gameOver && time >= nextGoldenBalloonTime)
         {
             DetectFireBallCollision.changeTypeOfBucket();
             nextGoldenBalloonTime += 40;
@@ -52,17 +75,18 @@ public class GameMaster : MonoBehaviour {
         {
             gameOver = true;
             gameOverText.text = "GAME OVER";
-            leftcontroller.SetActive(true);
-            rightcontroller.SetActive(true);
             bowController.SetActive(false);
+            //********************************************PLAY SOME SORT OF MAGICAL SOUND AT POINT OF INSTANTIATION************************************//
             restart.gameObject.SetActive(true);
             training.gameObject.SetActive(true);
+            fs.changeInstantiateFireballStatus();
+
         }
     }
 
     IEnumerator DecreaseBallTimeInterval()
     {
-        while(true)
+        while (true)
         {
             FireSpawner.DecreaseFireBallTimeInterval();
             yield return new WaitForSeconds(fireBallTimeIntervalSeconds);
@@ -108,5 +132,15 @@ public class GameMaster : MonoBehaviour {
         }
         SetLivesText();
         picker.PlayLifeBack();
+    }
+
+    public static void IncrementIDNumber()
+    {
+        bucketID++;
+    }
+
+    public static int returnIDNumber()
+    {
+        return bucketID;
     }
 }

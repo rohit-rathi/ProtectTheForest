@@ -24,9 +24,14 @@ public class WaterBucketOrganizer : MonoBehaviour
     bool needToDropWater = false;
 
     // Use this to give a unique ID to each bucket
-    static int IDNumber = -1;
+    //static int IDNumber = -1;
     int ID;
 
+    void Awake()
+    {
+        //IDNumber = -1;
+        //Debug.Log("In WBO and IDNUMBER is: " + IDNumber);
+    }
     // Use this for initialization
     void Start()
     {
@@ -36,8 +41,8 @@ public class WaterBucketOrganizer : MonoBehaviour
         fs = FireBallManager.GetComponent<FireSpawner>();
         gm = GameObject.Find("GameMasterObj").GetComponent<GameMaster>();
 
-
-        ID = ++IDNumber;
+        GameMaster.IncrementIDNumber();
+        ID = GameMaster.returnIDNumber();
     }
 
     // Update is called once per frame

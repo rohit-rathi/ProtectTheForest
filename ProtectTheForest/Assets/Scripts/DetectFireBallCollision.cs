@@ -10,12 +10,18 @@ public class DetectFireBallCollision : MonoBehaviour {
 
     public GameObject WaterBucket;
     WaterBucketOrganizer bucketOrganizer;
+
     public GameObject SpecialBucket;
-    static bool isSpecialBucket = false;
+    static bool isSpecialBucket;
 
     GameObject typeOfBucket;
 
     AudioPicker picker;
+
+    void Awake()
+    {
+        isSpecialBucket = false;
+    }
 
     // Use this for initialization
     void Start () {

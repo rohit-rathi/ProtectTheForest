@@ -32,7 +32,6 @@ public class Balloon : MonoBehaviour {
         gm.IncreaseScore();
         if(this.gameObject.tag == "SpecialBalloon")
         {
-            Debug.Log("Increasing life");
             gm.IncreaseLife();
         }
     }
