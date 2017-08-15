@@ -98,7 +98,7 @@ public class FireSpawner : MonoBehaviour {
             timeIntervalOfFireballInstantiation--;
            if (timeIntervalOfFireballInstantiation == 3)
             {
-                GameMaster.ChangeFireBallTimeIntervalSeconds(120);
+                GameMaster.ChangeFireBallTimeIntervalSeconds(90);
             }
             else if (timeIntervalOfFireballInstantiation == 2)
             {

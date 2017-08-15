@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GameMaster : MonoBehaviour
 {
 
-    private static int lives; ///*****CHANGE THIS BACK TO 6 
+    private static int lives;
     bool gameOver = false;
     static int score;
     int nextAddBonusTime = 30;
@@ -50,7 +50,6 @@ public class GameMaster : MonoBehaviour
         picker = GameObject.Find("ImpactSound").GetComponent<AudioPicker>();
         FireBallManager = GameObject.Find("FireBallManager");
         fs = FireBallManager.GetComponent<FireSpawner>();
-
     }
 
     // Update is called once per frame
@@ -80,6 +79,7 @@ public class GameMaster : MonoBehaviour
             restart.gameObject.SetActive(true);
             training.gameObject.SetActive(true);
             fs.changeInstantiateFireballStatus();
+            picker.PlayGameOver();
 
         }
     }
@@ -126,10 +126,7 @@ public class GameMaster : MonoBehaviour
 
     public void IncreaseLife()
     {
-        if (lives < 6)
-        {
-            lives++;
-        }
+        lives++;
         SetLivesText();
         picker.PlayLifeBack();
     }

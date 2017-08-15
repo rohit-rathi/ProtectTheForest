@@ -8,6 +8,8 @@ public class AudioPicker : MonoBehaviour {
     public AudioSource[] fireballHit;
     public AudioSource[] lifeLost;
     public AudioSource lifeBack;
+    public AudioSource wind;
+    public AudioSource gameOver;
 
     int sizzlingIndex = 0;
     int fireballHitIndex = 0;
@@ -50,6 +52,6 @@ public class AudioPicker : MonoBehaviour {
 
     public void PlayGameOver()
     {
-
+        gameOver.Play();
     }
 }
