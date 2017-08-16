@@ -23,6 +23,8 @@ public class WaterBucketOrganizer : MonoBehaviour
 
     bool needToDropWater = false;
 
+    bool specialBucket = false;
+
     // Use this to give a unique ID to each bucket
     //static int IDNumber = -1;
     int ID;
@@ -43,6 +45,10 @@ public class WaterBucketOrganizer : MonoBehaviour
 
         GameMaster.IncrementIDNumber();
         ID = GameMaster.returnIDNumber();
+        if(this.gameObject.tag == "SpecialBucket")
+        {
+            specialBucket = true;
+        }
     }
 
     // Update is called once per frame
@@ -52,7 +58,14 @@ public class WaterBucketOrganizer : MonoBehaviour
         {
             if (this.gameObject.transform.position.y < maxBucketHeight)
             {
-                this.gameObject.transform.Translate(0, 2f * Time.deltaTime, 0, Space.World);
+                if(specialBucket)
+                {
+                    this.gameObject.transform.Translate(0, 3.5f * Time.deltaTime, 0, Space.World);
+                }
+                else
+                {
+                    this.gameObject.transform.Translate(0, 2f * Time.deltaTime, 0, Space.World);
+                }
             }
             else
             {

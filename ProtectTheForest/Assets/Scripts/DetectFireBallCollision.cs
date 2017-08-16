@@ -54,7 +54,7 @@ public class DetectFireBallCollision : MonoBehaviour {
             }
         }
 
-        else if (col.gameObject.CompareTag("NotBurnable")) // am i still instantiating fire in the water
+        else if (col.gameObject.CompareTag("NotBurnable")) 
         {
             fs.destroyFireBall(this.gameObject);
         }

@@ -18,8 +18,6 @@ public class GameMaster : MonoBehaviour
     float startTime = 0;
     AudioPicker picker;
     int nextGoldenBalloonTime = 60;
-    public GameObject leftcontroller;
-    public GameObject rightcontroller;
     public GameObject bowController;
     public Button restart;
     public Button training;
@@ -33,7 +31,7 @@ public class GameMaster : MonoBehaviour
     {
         SetScoreText();
         SetLivesText();
-        lives = 1;
+        lives = 6;
         score = 0;
         fireBallTimeIntervalSeconds = 15;
         bucketID = -1;
@@ -75,7 +73,6 @@ public class GameMaster : MonoBehaviour
             gameOver = true;
             gameOverText.text = "GAME OVER";
             bowController.SetActive(false);
-            //********************************************PLAY SOME SORT OF MAGICAL SOUND AT POINT OF INSTANTIATION************************************//
             restart.gameObject.SetActive(true);
             training.gameObject.SetActive(true);
             fs.changeInstantiateFireballStatus();

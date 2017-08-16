@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TrainingButton : MonoBehaviour {
 
     void OnTriggerEnter()
     {
-        Debug.Log("Load Training Scene");
+        SceneManager.LoadScene(1);
     }
 }
