@@ -7,6 +7,6 @@ public class RestartButton : MonoBehaviour {
 
     void OnTriggerEnter()
     {
-        SceneManager.LoadScene(0);        
+        SceneManager.LoadScene(1);        
     }
 }

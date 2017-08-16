@@ -18,22 +18,11 @@ public class WaterBucketOrganizer : MonoBehaviour
     int maxBucketHeight = 60;
 
     bool instantiatedFireBurst = false;
-
     float startTimeOfExplosion = 0;
-
     bool needToDropWater = false;
-
     bool specialBucket = false;
-
-    // Use this to give a unique ID to each bucket
-    //static int IDNumber = -1;
     int ID;
 
-    void Awake()
-    {
-        //IDNumber = -1;
-        //Debug.Log("In WBO and IDNUMBER is: " + IDNumber);
-    }
     // Use this for initialization
     void Start()
     {

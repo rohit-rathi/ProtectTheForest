@@ -7,6 +7,6 @@ public class TrainingButton : MonoBehaviour {
 
     void OnTriggerEnter()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
 }
