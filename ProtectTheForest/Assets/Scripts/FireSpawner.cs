@@ -29,6 +29,7 @@ public class FireSpawner : MonoBehaviour {
 
     // list of all fires instantiated with fireList[0] being the first fire instantiated in the game
     ArrayList fireList = new ArrayList();
+    List<Vector2> currentCoordinatesOfFire = new List<Vector2>();
 
     AudioPicker picker;
 
@@ -50,16 +51,29 @@ public class FireSpawner : MonoBehaviour {
     {
         while (instantiateFireballs)
         {
+            bool dontNeedToRepeat = false;
+
             // get a random VALID x and z coordinates for where fireballs are instantiated
             do
             {
-                xInstantiated = Random.Range(minCordinate, maxCordinate);
-            } while ((xInstantiated >= xMinNotValidCoordinate) && (xInstantiated <= xMaxNotValidCoordinate));
+                do
+                {
+                    xInstantiated = Random.Range(minCordinate, maxCordinate);
+                } while ((xInstantiated >= xMinNotValidCoordinate) && (xInstantiated <= xMaxNotValidCoordinate));
 
-            do
-            {
-                zInstantiated = Random.Range(minCordinate, maxCordinate);
-            } while ((zInstantiated >= zMinNotValidCoordinate) && (zInstantiated <= zMaxNotValidCoordinate));
+                do
+                {
+                    zInstantiated = Random.Range(minCordinate, maxCordinate);
+                } while ((zInstantiated >= zMinNotValidCoordinate) && (zInstantiated <= zMaxNotValidCoordinate));
+
+                Vector2 point = new Vector2 (xInstantiated, zInstantiated);
+                if(!currentCoordinatesOfFire.Contains(point))
+                {
+                    currentCoordinatesOfFire.Add(point);
+                    dontNeedToRepeat = true;
+                }
+
+            } while (!dontNeedToRepeat);
 
             Instantiate(fireBall, new Vector3(xInstantiated, heightOfSpawn, zInstantiated), Quaternion.identity);
 
@@ -81,6 +95,8 @@ public class FireSpawner : MonoBehaviour {
     {
         GameObject fire = (GameObject)fireList[fireIndex];
         Vector3 position = fire.transform.position;
+        Vector2 destroyFromCoordinatesOfFire = new Vector2(fire.transform.position.x, fire.transform.position.z);
+        currentCoordinatesOfFire.Remove(destroyFromCoordinatesOfFire);
         picker.PlayFireOut();
         Destroy(fire);
         Instantiate(fireExtinguish, position, Quaternion.identity);
